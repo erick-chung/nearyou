@@ -1,18 +1,18 @@
-# NearYou - Restaurant Discovery Web Application
+# NearYou — Restaurant Discovery Web Application
 
-NearYou is a full-stack restaurant discovery application that allows users to search for restaurants around any destination, rather than being limited to their current location.
+NearYou is a full-stack restaurant discovery application that allows users to search for restaurants around any destination rather than being limited to their current location.
 
 ## Why I Built NearYou
 
-I built NearYou after noticing a UX limitation while using Google Maps.
+I built NearYou after noticing a frustrating UX gap while using Google Maps.
 
-When I wanted to find restaurants near a place I planned to visit later, I found the process unnecessarily complicated. Search results and distance information often centered around my current location rather than the destination I originally intended.
+When planning trips, meetups, or visits to unfamiliar areas, I often wanted to find restaurants near a destination I had not yet reached. I found it unnecessarily difficult to compare restaurants based on their proximity to that future destination because the distance context was often centered around where I currently was.
 
-For example, if I was planning to meet someone near Times Square while I was currently in New Jersey, I wanted to be able to enter the specific Times Square address and browse restaurants based on their proximity to that destination.
+For example, if I was in New Jersey but planning to meet someone near Times Square, I wanted to enter the Times Square address and browse restaurants based on their proximity to that location rather than my current location.
 
 NearYou was designed to solve that problem.
 
-Users can enter any address or location and browse nearby restaurants as if they were already there. Restaurant results are displayed alongside an interactive map and can be filtered, sorted, and saved to a personal favorites list.
+Users can enter any address or destination and explore nearby restaurants as if they were already there. Results are displayed alongside an interactive map and can be filtered, sorted, and saved to a personal favorites list.
 
 **Status:** Previously deployed on Vercel. The application is currently available through its source code and can be run locally.
 
@@ -22,33 +22,21 @@ Users can enter any address or location and browse nearby restaurants as if they
 
 ### Restaurant Search Results
 
-Users can enter an address or destination and browse nearby restaurants on an interactive map alongside a list of results.
+Users can enter an address or destination and browse nearby restaurants on an interactive map alongside a list of search results.
 
-
-
-```md
-![NearYou restaurant search results](docs/images/search-results.png)
-```
+![NearYou restaurant search results](docs/images/search_results.png)
 
 ### Filters
 
 Users can filter and reorder restaurant results to make it easier to find relevant options around their selected destination.
 
-**ADD YOUR FILTER MENU SCREENSHOT HERE**
-
-```md
-![NearYou filter menu](docs/images/filter-menu.png)
-```
+![NearYou filter menu](docs/images/filter_bar.png)
 
 ### Favorites
 
 Authenticated users can save restaurants to their account and access their favorites across sessions.
 
-**ADD YOUR FAVORITES SCREENSHOT HERE**
-
-```md
-![NearYou favorites page](docs/images/favorites.png)
-```
+![NearYou favorites page](docs/images/favorites_page.png)
 
 ---
 
@@ -58,12 +46,12 @@ Authenticated users can save restaurants to their account and access their favor
 - Search using restaurant names or locations
 - Interactive Google Maps interface with clickable restaurant markers
 - Display restaurant results relative to the user's selected destination
-- Filter and sort restaurant results
+- Filter and sort restaurant results, including by proximity
 - Secure user authentication with Clerk
 - Save and remove favorite restaurants
-- Persist favorites using PostgreSQL
+- Persist user favorites using PostgreSQL
 - Optimistic UI updates for responsive favorite interactions
-- Responsive user interface with loading states and keyboard navigation
+- Responsive interface with loading states and keyboard navigation
 
 ---
 
@@ -78,7 +66,7 @@ Authenticated users can save restaurants to their account and access their favor
 | ORM | Prisma |
 | Authentication | Clerk |
 | Maps & Places | Google Maps JavaScript API, Google Places API |
-| Deployment | Vercel |
+| Deployment | Previously deployed on Vercel |
 | Version Control | Git, GitHub |
 
 ---
@@ -95,37 +83,41 @@ The application combines the user interface, server-side application logic, data
 
 NearYou integrates with the Google Maps and Places APIs to retrieve restaurant and location data based on the destination entered by the user.
 
-Rather than centering the experience around the user's current location, the application uses the searched destination as the reference point for restaurant discovery.
+Rather than centering the restaurant discovery experience around the user's current location, the application uses the searched destination as the reference point.
 
-This allows users to explore restaurants around places they plan to visit before physically arriving there.
+This allows users to explore restaurants around locations they plan to visit before physically arriving there.
 
 ### Database Design
 
 PostgreSQL is used to persist user favorites, with Prisma providing type-safe database access.
 
-Favorite records store the restaurant information required to render saved restaurants rather than depending entirely on external Google Places records.
+Favorite records store the restaurant information required to render saved restaurants rather than depending entirely on external Google Places records. Because this restaurant information originates from an external service, storing the necessary data locally helps ensure that saved favorites remain usable even if the external record changes.
 
-A composite unique constraint using the authenticated user ID and restaurant ID prevents duplicate favorites from being created.
+A composite unique constraint using the authenticated user ID and restaurant ID prevents the same restaurant from accidentally being saved multiple times.
 
 ### Authentication
 
-Clerk is used to provide authentication and associate saved restaurants with individual users.
+Clerk provides secure user authentication and associates saved restaurants with individual user accounts.
 
-Only authenticated users can maintain a persistent favorites list tied to their account.
+Authenticated users can maintain a persistent favorites list across sessions.
 
 ### Optimistic UI Updates
 
-The favorites system uses optimistic UI updates so that saving or removing a restaurant appears immediately to the user while the database operation is processed.
+The favorites system uses optimistic UI updates so that saving or removing a restaurant appears immediately in the interface while the corresponding database operation is processed.
 
-If the server-side operation fails, the application can reconcile the interface with the actual server state.
-
-I implemented this behavior manually to better understand the update-and-reconciliation process rather than relying entirely on a built-in abstraction.
+I implemented this behavior manually to better understand the update-and-reconciliation process and maintain control over how the application responds when a server-side operation fails.
 
 ### Server-Side Operations
 
-Database mutations are handled using Next.js server actions rather than separate API routes.
+Database mutations are handled through Next.js server actions rather than separate API routes.
 
-This allowed database operations to remain closely integrated with the App Router while keeping client-side components focused on interaction and presentation.
+This keeps database operations integrated with the App Router architecture while allowing client-side components to remain focused on presentation and interaction.
+
+### External API Integration
+
+The application integrates with external mapping and restaurant-data services through the Google Maps Platform.
+
+Working with these APIs required handling location data, asynchronous requests, application state, API configuration, and failures that can occur when communicating with external services.
 
 ---
 
@@ -133,10 +125,10 @@ This allowed database operations to remain closely integrated with the App Route
 
 NearYou was my first experience building a complete full-stack web application from the ground up.
 
-The project gave me hands-on experience with the full development lifecycle, including:
+The project gave me hands-on experience with the full software development lifecycle, including:
 
 - identifying a real user-experience problem
-- designing an application around that problem
+- translating that problem into application requirements
 - making architectural decisions
 - building reusable React components
 - working with TypeScript
@@ -144,13 +136,16 @@ The project gave me hands-on experience with the full development lifecycle, inc
 - designing a relational database schema
 - working with PostgreSQL and Prisma
 - implementing user authentication
-- managing client and server state
-- debugging interactions across multiple parts of an application
-- working with environment variables and API credentials
+- managing client-side and server-side state
+- implementing optimistic UI behavior
+- debugging interactions across the frontend, backend, database, and external services
+- managing environment variables and API credentials
 - deploying a production application
 - maintaining and improving an existing codebase
 
 More importantly, the project helped me understand how the individual technologies I had been learning fit together into a complete software system.
+
+Rather than following a tutorial from beginning to end, I started with a problem I personally encountered, designed a solution around it, and worked through the technical decisions and debugging required to turn that idea into a functioning application.
 
 ---
 
@@ -163,15 +158,15 @@ You will need:
 - Node.js
 - A PostgreSQL database
 - A Clerk account
-- A Google Maps Platform API key with the necessary Maps and Places APIs enabled
+- A Google Maps Platform API key with the required Maps and Places APIs enabled
 
 ### Installation
 
 Clone the repository:
 
 ```bash
-git clone https://github.com/erick-chung/near-you.git
-cd near-you
+git clone https://github.com/erick-chung/nearyou.git
+cd nearyou
 ```
 
 Install dependencies:
@@ -202,11 +197,11 @@ http://localhost:3000
 
 The application requires environment variables for:
 
-- PostgreSQL database connection
+- PostgreSQL database access
 - Clerk authentication
 - Google Maps API access
 
-Environment files containing API keys or credentials are intentionally excluded from this repository.
+Environment files containing API keys, database credentials, or other secrets are intentionally excluded from the repository.
 
 ---
 
