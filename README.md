@@ -75,7 +75,7 @@ Authenticated users can save restaurants to their account and access their favor
 
 ### Full-Stack Architecture
 
-NearYou was built as a full-stack application using Next.js and the App Router.
+NearYou was built as a full-stack application using Next.js.
 
 The application combines the user interface, server-side application logic, database operations, authentication, and external API integrations within a single architecture.
 
