@@ -1,4 +1,4 @@
-# NearYou — Restaurant Discovery Web Application
+# NearYou - Restaurant Discovery Web Application
 
 NearYou is a full-stack restaurant discovery application that allows users to search for restaurants around any destination rather than being limited to their current location.
 
@@ -6,9 +6,9 @@ NearYou is a full-stack restaurant discovery application that allows users to se
 
 I built NearYou after noticing a frustrating UX gap while using Google Maps.
 
-When planning trips, meetups, or visits to unfamiliar areas, I often wanted to find restaurants near a destination I had not yet reached. I found it unnecessarily difficult to compare restaurants based on their proximity to that future destination because the distance context was often centered around where I currently was.
+When planning trips to unfamiliar areas, I often wanted to find restaurants near a destination I was not physically at yet. I found it unnecessarily difficult to compare restaurants based on their proximity to that future destination because the distance context was often centered around my current location.
 
-For example, if I was in New Jersey but planning to meet someone near Times Square, I wanted to enter the Times Square address and browse restaurants based on their proximity to that location rather than my current location.
+For example, if I was in New Jersey but planning to meet someone near Times Square, I wanted to enter the precise Times Square address and browse restaurants based on their proximity to that location rather than my current location.
 
 NearYou was designed to solve that problem.
 
